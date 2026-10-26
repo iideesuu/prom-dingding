@@ -1,0 +1,12 @@
+groups:
+  - name: container-alerts
+    rules:
+      - alert: CAdvisorDown
+        expr: up{job="cadvisor"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          category: container
+        annotations:
+          summary: "{{ $labels.instance }} 的 cAdvisor 无法采集"
+          description: "{{ $labels.instance }} 已连续 1 分钟采集失败"
